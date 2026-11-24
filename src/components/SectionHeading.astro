@@ -1,0 +1,24 @@
+---
+import Accent from './Accent.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  sub?: string;
+  align?: 'center' | 'left';
+}
+const { eyebrow, title, sub, align = 'center' } = Astro.props;
+const center = align === 'center';
+const hasAction = Astro.slots.has('default');
+---
+
+<div class:list={[!center && hasAction && 'flex flex-col gap-6 md:flex-row md:items-end md:justify-between']}>
+  <div class:list={[center ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl']}>
+    <p class:list={['eyebrow', center && 'center']}>{eyebrow}</p>
+    <h2 class="accent mt-5 font-serif text-[40px] leading-[1.08] font-medium text-brand-900 sm:text-5xl">
+      <Accent text={title} />
+    </h2>
+    {sub && <p class="mt-5 text-[17px] leading-relaxed text-muted">{sub}</p>}
+  </div>
+  {hasAction && <div class="shrink-0"><slot /></div>}
+</div>

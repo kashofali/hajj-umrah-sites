@@ -1,0 +1,122 @@
+---
+import type { LoadedClient as Client } from '../lib/client';
+import { formatPhone, NAV } from '../lib/client';
+import { BRAND } from '../lib/brand';
+import Logo from '../components/Logo.astro';
+import Pattern from '../components/Pattern.astro';
+import Icon from '../components/Icon.astro';
+
+const { client } = Astro.props as { client: Client };
+const year = new Date().getFullYear();
+const contacts = client.contacts?.length ? client.contacts : client.phones.length ? [{ phones: client.phones }] : [];
+const links = NAV.map((l) => [l.href, l.label]);
+const handle = client.instagram?.match(/instagram\.com\/([^/?#]+)/)?.[1];
+---
+
+<footer class="relative overflow-hidden bg-brand-975 pt-16 pb-28 text-white/70 sm:pb-10">
+  <Pattern class="text-gold-light opacity-[0.04]" />
+  <div class="relative mx-auto max-w-[1200px] px-4 sm:px-6">
+    <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_1fr_1.3fr]">
+      <div>
+        <Logo client={client} light />
+        <p class="mt-6 max-w-xs leading-relaxed">
+          Hajj, Umrah and Ziyarat from {client.city}{client.since ? ` since ${client.since}` : ''}.
+          {client.certification && ` ${client.certification} certified.`}
+        </p>
+        {client.slogan && <p class="mt-5 font-serif text-xl text-gold-light italic">{client.slogan}</p>}
+      </div>
+
+      <div>
+        <p class="text-xs font-bold tracking-[0.2em] text-gold-light uppercase">Explore</p>
+        <ul class="mt-5 space-y-3">
+          {links.map(([href, label]) => <li><a href={href} class="text-white/85 transition hover:text-gold-light">{label}</a></li>)}
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-xs font-bold tracking-[0.2em] text-gold-light uppercase">Call us</p>
+        <ul class="mt-5 space-y-5">
+          {
+            contacts.map((c) => (
+              <li class="flex gap-3">
+                <Icon name="phone" class="mt-1 h-4 w-4 shrink-0 text-gold" />
+                <span>
+                  {c.name && <span class="block">{c.name}</span>}
+                  {c.phones.map((p, i) => (
+                    <>
+                      {i > 0 && ' / '}
+                      <a href={`tel:+91${p}`} class="text-white/90 hover:text-gold-light">
+                        {formatPhone(p)}
+                      </a>
+                    </>
+                  ))}
+                </span>
+              </li>
+            ))
+          }
+          {
+            client.saudiPhone && (
+              <li class="flex gap-3">
+                <Icon name="globe" class="mt-1 h-4 w-4 shrink-0 text-gold" />
+                <span>
+                  <span class="block">Saudi Arabia</span>
+                  <a href={`tel:${client.saudiPhone.replace(/\s/g, '')}`} class="text-white/90 hover:text-gold-light">
+                    {client.saudiPhone}
+                  </a>
+                </span>
+              </li>
+            )
+          }
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-xs font-bold tracking-[0.2em] text-gold-light uppercase">Visit us</p>
+        <ul class="mt-5 space-y-4">
+          <li class="flex gap-3">
+            <Icon name="pin" class="mt-1 h-4 w-4 shrink-0 text-gold" />
+            <span class="leading-relaxed text-white/90">{client.address ?? client.city}</span>
+          </li>
+          {
+            client.hours && (
+              <li class="flex gap-3">
+                <Icon name="clock" class="mt-1 h-4 w-4 shrink-0 text-gold" />
+                <span>{client.hours}</span>
+              </li>
+            )
+          }
+          {
+            client.email && (
+              <li class="flex gap-3">
+                <Icon name="mail" class="mt-1 h-4 w-4 shrink-0 text-gold" />
+                <a href={`mailto:${client.email}`} class="text-white/90 hover:text-gold-light">{client.email}</a>
+              </li>
+            )
+          }
+          {
+            client.instagram && (
+              <li class="flex gap-3">
+                <Icon name="instagram" class="mt-1 h-4 w-4 shrink-0 text-gold" />
+                <a href={client.instagram} target="_blank" rel="noopener" class="text-white/90 hover:text-gold-light">
+                  {handle ? `@${handle}` : 'Instagram'}
+                </a>
+              </li>
+            )
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="mt-14 flex flex-col gap-3 border-t border-white/10 pt-7 text-[13px] text-white/55 md:flex-row md:items-center md:justify-between"
+    >
+      <p>© {year} {client.name}. All rights reserved.</p>
+      <p>
+        Package prices and hotels are subject to availability · Website by <a
+          href={BRAND.url}
+          class="underline underline-offset-2 hover:text-gold-light">{BRAND.name}</a
+        >
+      </p>
+    </div>
+  </div>
+</footer>

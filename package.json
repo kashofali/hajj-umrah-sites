@@ -1,0 +1,20 @@
+{
+  "name": "hajj-umrah-sites",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "import": "node scripts/import-leads.mjs",
+    "dev": "node scripts/client.mjs dev",
+    "build": "node scripts/client.mjs build",
+    "build:all": "node scripts/client.mjs build --all",
+    "preview": "node scripts/client.mjs preview",
+    "list": "node scripts/client.mjs list"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "astro": "^5.18.2",
+    "tailwindcss": "^4.3.5",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  }
+}

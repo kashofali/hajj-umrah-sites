@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../sections/Hero.astro';
+import TrustStrip from '../sections/TrustStrip.astro';
+import Packages from '../sections/Packages.astro';
+import Hospitality from '../sections/Hospitality.astro';
+import Services from '../sections/Services.astro';
+import HowItWorks from '../sections/HowItWorks.astro';
+import Gallery from '../sections/Gallery.astro';
+import Testimonials from '../sections/Testimonials.astro';
+import FaqPreview from '../sections/FaqPreview.astro';
+import CtaBand from '../sections/CtaBand.astro';
+import { loadClient } from '../lib/client';
+
+const client = loadClient();
+---
+
+<Layout client={client}>
+  <Hero client={client} />
+  <TrustStrip client={client} />
+  <Packages client={client} />
+  <Hospitality client={client} />
+  <Services client={client} />
+  <HowItWorks client={client} />
+  <Gallery client={client} />
+  <Testimonials client={client} />
+  <FaqPreview client={client} />
+  <div class="pt-24 sm:pt-28"><CtaBand client={client} /></div>
+</Layout>

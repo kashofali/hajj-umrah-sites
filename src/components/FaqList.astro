@@ -1,0 +1,27 @@
+---
+import type { Faq } from '../lib/types';
+import Icon from './Icon.astro';
+
+interface Props {
+  faqs: Faq[];
+  limit?: number;
+}
+const { faqs, limit } = Astro.props;
+const items = limit ? faqs.slice(0, limit) : faqs;
+---
+
+<div class="space-y-3">
+  {
+    items.map((f, i) => (
+      <details class="card group px-6 transition open:shadow-soft" open={i === 0}>
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-serif text-[22px] leading-snug font-semibold text-brand-900 [&::-webkit-details-marker]:hidden">
+          {f.q}
+          <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold-soft text-gold">
+            <Icon name="chevron" class="h-4 w-4 transition-transform group-open:rotate-180" />
+          </span>
+        </summary>
+        <p class="pb-6 leading-relaxed text-muted">{f.a}</p>
+      </details>
+    ))
+  }
+</div>

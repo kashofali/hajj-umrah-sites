@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Contact from '../sections/Contact.astro';
+import { loadClient } from '../lib/client';
+import { IMAGES } from '../lib/images';
+
+const client = loadClient();
+---
+
+<Layout
+  client={client}
+  title="Contact Us"
+  description={`Contact ${client.name} in ${client.city} for Umrah and Hajj bookings. Call, WhatsApp or visit our office.`}
+>
+  <PageHero image={IMAGES.banners.night}
+    eyebrow="Contact"
+    title="We'd love to *hear from you*"
+    text={client.whatsapp
+      ? "Send an enquiry and we'll reply on WhatsApp with packages, dates and prices that fit your family."
+      : "Get in touch and we'll help you find the right package, dates and price for your family."}
+    crumbs={[{ label: 'Contact' }]}
+  />
+  <Contact client={client} />
+</Layout>

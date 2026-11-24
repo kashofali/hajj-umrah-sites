@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ArchArt from '../components/ArchArt.astro';
+import Icon from '../components/Icon.astro';
+import { loadClient } from '../lib/client';
+
+const client = loadClient();
+---
+
+<Layout client={client} title="Page not found">
+  <section class="mx-auto flex min-h-[60vh] max-w-[1200px] flex-col items-center justify-center px-4 py-20 text-center">
+    <div class="relative h-28 w-56 overflow-hidden rounded-t-[999px] bg-brand-900">
+      <ArchArt class="absolute inset-0 h-full w-full" />
+    </div>
+    <p class="mt-8 font-serif text-8xl leading-none font-semibold text-gold">404</p>
+    <h1 class="mt-4 font-serif text-4xl font-semibold text-brand-900 sm:text-5xl">This page has lost its way</h1>
+    <p class="mt-4 max-w-md text-muted">The page you're looking for doesn't exist or has moved. Let us guide you back.</p>
+    <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+      <a href="/" class="btn btn-navy">Go home</a>
+      <a href="/packages" class="btn btn-ghost">View packages <Icon name="arrow" class="h-4 w-4" /></a>
+    </div>
+  </section>
+</Layout>

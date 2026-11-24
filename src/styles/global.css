@@ -1,0 +1,223 @@
+@import "tailwindcss";
+
+/* Utilities (bg-brand-900, text-gold, …) read the active theme's variables. */
+@theme inline {
+  --color-brand-975: var(--brand-975);
+  --color-brand-950: var(--brand-950);
+  --color-brand-900: var(--brand-900);
+  --color-brand-800: var(--brand-800);
+  --color-brand-700: var(--brand-700);
+  --color-brand-100: var(--brand-100);
+  --color-brand-50: var(--brand-50);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-soft: var(--gold-soft);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-wa: var(--wa);
+  --font-serif: "Cormorant Garamond", "Cormorant", Georgia, serif;
+  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+:root {
+  --gold: #b08d3e;
+  --gold-light: #d9bb6e;
+  --gold-pale: #e8d29a;
+  --gold-soft: #f5ecd6;
+  --gold-grad: linear-gradient(135deg, #e3c77d 0%, #c9a24f 45%, #a8822f 100%);
+  --ink: #17201c;
+  --muted: #5e6a64;
+  --line: #e6e1d4;
+  --line-soft: #efebe1;
+  --bg: #faf7f0;
+  --surface: #ffffff;
+  --wa: #1f9d55;
+  --shadow-sm: 0 1px 2px rgb(13 27 58 / 0.04), 0 2px 8px rgb(13 27 58 / 0.04);
+  --shadow: 0 1px 2px rgb(13 27 58 / 0.04), 0 12px 32px -8px rgb(13 27 58 / 0.12);
+  --shadow-lg: 0 2px 4px rgb(13 27 58 / 0.04), 0 28px 60px -16px rgb(13 27 58 / 0.28);
+}
+
+/* Royal navy & gold */
+[data-theme="navy"] {
+  --brand-975: #050c1d;
+  --brand-950: #081229;
+  --brand-900: #0d1b3a;
+  --brand-800: #15284f;
+  --brand-700: #1f3a6b;
+  --brand-100: #e1e6f0;
+  --brand-50: #f2f4f8;
+  --accent: #7d1d2c;
+  --accent-soft: #f6e9eb;
+}
+
+/* Deep emerald & gold */
+[data-theme="emerald"] {
+  --brand-975: #03130d;
+  --brand-950: #061d15;
+  --brand-900: #0b2c20;
+  --brand-800: #123d2d;
+  --brand-700: #1b5640;
+  --brand-100: #dcebe3;
+  --brand-50: #eff6f2;
+  --accent: #7d1d2c;
+  --accent-soft: #f6e9eb;
+}
+
+/* Rich maroon & gold */
+[data-theme="maroon"] {
+  --brand-975: #16050a;
+  --brand-950: #22080f;
+  --brand-900: #380e19;
+  --brand-800: #4f1524;
+  --brand-700: #6b1f33;
+  --brand-100: #f0dfe3;
+  --brand-50: #f8f0f2;
+  --accent: #1f3a6b;
+  --accent-soft: #e1e6f0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+@layer components {
+  /* Headings: *word* in content becomes a gold italic accent */
+  .accent em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .accent-light em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .eyebrow::before,
+  .eyebrow.center::after {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.7;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border-radius: 999px;
+    padding: 0.9rem 1.6rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: transform 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, filter 0.2s;
+    white-space: nowrap;
+  }
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  .btn-navy {
+    background: var(--brand-900);
+    color: #fff;
+    box-shadow: var(--shadow);
+  }
+  .btn-navy:hover {
+    background: var(--brand-800);
+  }
+  .btn-gold {
+    background: var(--gold-grad);
+    color: var(--brand-950);
+    box-shadow: 0 12px 30px -12px rgb(176 141 62 / 0.7);
+  }
+  .btn-gold:hover {
+    filter: brightness(1.06);
+  }
+  .btn-pale {
+    background: var(--gold-soft);
+    color: var(--brand-900);
+  }
+  .btn-pale:hover {
+    background: var(--gold-pale);
+  }
+  .btn-ghost-light {
+    border: 1px solid rgb(255 255 255 / 0.25);
+    color: #fff;
+  }
+  .btn-ghost-light:hover {
+    background: rgb(255 255 255 / 0.08);
+    border-color: rgb(255 255 255 / 0.45);
+  }
+  .btn-ghost {
+    border: 1px solid var(--line);
+    color: var(--brand-900);
+    background: var(--surface);
+  }
+  .btn-ghost:hover {
+    border-color: var(--gold);
+  }
+
+  .link-gold {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--gold);
+    font-weight: 700;
+    color: var(--brand-900);
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .bg-gold-grad {
+    background: var(--gold-grad);
+  }
+  .shadow-soft {
+    box-shadow: var(--shadow);
+  }
+  .shadow-big {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .field {
+    margin-top: 0.4rem;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    padding: 0.75rem 0.95rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgb(176 141 62 / 0.18);
+  }
+}

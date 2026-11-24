@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import FaqList from '../components/FaqList.astro';
+import CtaBand from '../sections/CtaBand.astro';
+import { loadClient } from '../lib/client';
+import { IMAGES } from '../lib/images';
+
+const client = loadClient();
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: client.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+
+<Layout
+  client={client}
+  title="Frequently Asked Questions"
+  description={`Answers about documents, travel from ${client.city}, payments, elders and women travelling for Umrah and Hajj with ${client.name}.`}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  <PageHero image={IMAGES.banners.makkah}
+    eyebrow="FAQ"
+    title="Questions pilgrims *often ask*"
+    text="Documents, payments, travelling with elders and more. If your question isn't here, just ask us."
+    crumbs={[{ label: 'FAQ' }]}
+  />
+
+  <section class="py-16 sm:py-24">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6">
+      <FaqList faqs={client.faqs} />
+    </div>
+  </section>
+
+  <CtaBand client={client} />
+</Layout>

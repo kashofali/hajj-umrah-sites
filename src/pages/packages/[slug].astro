@@ -1,0 +1,241 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PackageCard from '../../components/PackageCard.astro';
+import Pattern from '../../components/Pattern.astro';
+import Icon from '../../components/Icon.astro';
+import type { IconName } from '../../lib/types';
+import { CATEGORIES, contactHref, contactLabel, formatINR, formatPhone, hasAmount, isExternal, loadClient, type Pkg } from '../../lib/client';
+import { DEFAULT_EXCLUSIONS } from '../../lib/defaults';
+import { packageBanner } from '../../lib/images';
+
+export function getStaticPaths() {
+  return loadClient().packages.map((pkg) => ({ params: { slug: pkg.slug }, props: { pkg } }));
+}
+
+const { pkg } = Astro.props as { pkg: Pkg };
+const client = loadClient();
+
+const sharing = pkg.prices
+  ? [
+      { label: 'Quad sharing', note: '4 per room', price: pkg.prices.quad },
+      { label: 'Triple sharing', note: '3 per room', price: pkg.prices.triple },
+      { label: 'Double sharing', note: '2 per room', price: pkg.prices.double },
+    ].filter((s): s is { label: string; note: string; price: number } => typeof s.price === 'number')
+  : [];
+
+const facts = [
+  pkg.days && { icon: 'calendar', label: 'Duration', value: `${pkg.days} days${pkg.nights ? ` / ${pkg.nights} nights` : ''}` },
+  pkg.flight && { icon: 'plane', label: 'Flights', value: pkg.flight },
+  pkg.date && { icon: 'clock', label: 'Departure', value: pkg.date },
+  pkg.meals && { icon: 'utensils', label: 'Meals', value: pkg.meals },
+].filter(Boolean) as { icon: IconName; label: string; value: string }[];
+
+const exclusions = pkg.exclusions ?? DEFAULT_EXCLUSIONS;
+const enquiry = contactHref(
+  client,
+  `Assalamu Alaikum ${client.name}, I am interested in the "${pkg.name}" package${pkg.days ? ` (${pkg.days} days)` : ''}. Please share the details and available dates.`,
+);
+const related = [
+  ...client.packages.filter((p) => p.slug !== pkg.slug && p.category === pkg.category),
+  ...client.packages.filter((p) => p.slug !== pkg.slug && p.category !== pkg.category),
+].slice(0, 3);
+const h2 = 'font-serif text-[32px] leading-tight font-semibold text-brand-900';
+---
+
+<Layout
+  client={client}
+  title={pkg.name}
+  description={`${pkg.name}${pkg.days ? `, ${pkg.days} days` : ''} from ${pkg.price} per person. ${pkg.description ?? ''}`.trim()}
+>
+  <PageHero image={packageBanner(pkg.category)}
+    eyebrow={pkg.type ?? CATEGORIES[pkg.category]}
+    title={pkg.name}
+    text={pkg.description}
+    crumbs={[{ label: 'Packages', href: '/packages' }, { label: pkg.name }]}
+  >
+    {
+      pkg.badge && (
+        <span
+          class:list={[
+            'mt-7 inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-bold tracking-[0.12em] uppercase',
+            pkg.badgeTone === 'accent' ? 'bg-accent text-white' : 'bg-gold-grad text-brand-950',
+          ]}
+        >
+          <Icon name="star" class="h-3 w-3" />
+          {pkg.badge}
+        </span>
+      )
+    }
+  </PageHero>
+
+  <section class="py-14 sm:py-20">
+    <div class="mx-auto grid max-w-[1200px] gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_380px]">
+      <div class="min-w-0 space-y-8">
+        {
+          facts.length > 0 && (
+            <div class="grid gap-4 sm:grid-cols-2">
+              {facts.map((f) => (
+                <div class="card flex gap-4 p-5">
+                  <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gold-soft text-gold">
+                    <Icon name={f.icon} class="h-5 w-5" />
+                  </span>
+                  <span>
+                    <span class="block text-[11px] font-bold tracking-[0.16em] text-muted uppercase">{f.label}</span>
+                    <span class="mt-1 block font-semibold text-brand-900">{f.value}</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+          )
+        }
+
+        {
+          pkg.hotels && pkg.hotels.length > 0 && (
+            <div class="card p-6 sm:p-8">
+              <h2 class={h2}>Accommodation</h2>
+              <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                {pkg.hotels.map((h) => (
+                  <div class="rounded-2xl border border-line bg-bg p-5">
+                    <div class="flex items-center justify-between gap-3">
+                      <h3 class="font-serif text-2xl font-semibold text-brand-900">{h.city}</h3>
+                      <span class="rounded-full bg-brand-900 px-3 py-1 text-xs font-bold text-white">{h.nights} nights</span>
+                    </div>
+                    {h.stars > 0 && (
+                      <div class="mt-2 flex text-gold" role="img" aria-label={`${h.stars} star hotel`}>
+                        {Array.from({ length: h.stars }, () => (
+                          <Icon name="star" class="h-3.5 w-3.5" />
+                        ))}
+                      </div>
+                    )}
+                    <p class="mt-2 text-sm text-muted">{h.distance}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        }
+
+        {
+          pkg.itinerary && pkg.itinerary.length > 0 && (
+            <div class="card p-6 sm:p-8">
+              <h2 class={h2}>Itinerary</h2>
+              <ol class="relative mt-8 space-y-8 border-l-2 border-dashed border-gold-pale pl-8">
+                {pkg.itinerary.map((d) => (
+                  <li class="relative">
+                    <span class="absolute top-1 -left-[2.6rem] h-5 w-5 rounded-full border-4 border-surface bg-gold ring-1 ring-gold-pale" />
+                    <p class="text-xs font-bold tracking-[0.14em] text-accent uppercase">{d.day}</p>
+                    <h3 class="mt-1 font-serif text-2xl font-semibold text-brand-900">{d.title}</h3>
+                    <p class="mt-1 leading-relaxed text-muted">{d.text}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )
+        }
+
+        <div class="grid gap-6 md:grid-cols-2">
+          {
+            pkg.inclusions && pkg.inclusions.length > 0 && (
+              <div class="card p-6 sm:p-8">
+                <h2 class={h2}>What's included</h2>
+                <ul class="mt-5 space-y-3">
+                  {pkg.inclusions.map((i) => (
+                    <li class="flex gap-3 text-[15px]">
+                      <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold-soft text-gold">
+                        <Icon name="check" class="h-3.5 w-3.5" />
+                      </span>
+                      {i}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          }
+          <div class="card p-6 sm:p-8">
+            <h2 class={h2}>Not included</h2>
+            <ul class="mt-5 space-y-3">
+              {
+                exclusions.map((i) => (
+                  <li class="flex gap-3 text-[15px] text-muted">
+                    <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent">
+                      <Icon name="close" class="h-3.5 w-3.5" />
+                    </span>
+                    {i}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="card sticky top-28 overflow-hidden shadow-soft">
+          <div class="relative bg-brand-900 p-7 text-white">
+            <Pattern class="text-gold-light opacity-[0.1]" size={72} />
+            <p class="relative text-[11px] font-bold tracking-[0.16em] text-white/60 uppercase">
+              {pkg.priceLabel ?? 'Starting from'}
+            </p>
+            <p class="relative mt-1 font-serif text-5xl font-semibold text-gold-light">{pkg.price}</p>
+            {hasAmount(pkg.price) &&<p class="relative mt-1 text-sm text-white/60">per person</p>}
+          </div>
+          <div class="p-7">
+            {
+              sharing.length > 0 && (
+                <ul class="mb-6 divide-y divide-line">
+                  {sharing.map((s) => (
+                    <li class="flex items-center justify-between py-3">
+                      <span>
+                        <span class="block font-semibold text-brand-900">{s.label}</span>
+                        <span class="block text-xs text-muted">{s.note}</span>
+                      </span>
+                      <span class="font-serif text-2xl font-semibold text-brand-900">{formatINR(s.price)}</span>
+                    </li>
+                  ))}
+                </ul>
+              )
+            }
+            <a
+              href={enquiry}
+              target={isExternal(enquiry) ? '_blank' : undefined}
+              rel="noopener"
+              class:list={['btn w-full', client.whatsapp ? 'bg-wa text-white' : 'btn-navy']}
+            >
+              {client.whatsapp && <Icon name="chat" class="h-4 w-4" />}
+              {contactLabel(client)}
+            </a>
+            {
+              client.whatsapp && client.phones[0] && (
+                <a href={`tel:+91${client.phones[0]}`} class="btn btn-ghost mt-3 w-full">
+                  <Icon name="phone" class="h-4 w-4" /> {formatPhone(client.phones[0])}
+                </a>
+              )
+            }
+            <p class="mt-5 text-center text-xs leading-relaxed text-muted">
+              {client.sampleContent ? 'Sample package for this demo. ' : ''}Prices may change with flight fares and hotel
+              availability.
+            </p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {
+    related.length > 0 && (
+      <section class="bg-surface py-20 sm:py-24">
+        <div class="mx-auto max-w-[1200px] px-4 sm:px-6">
+          <h2 class="accent font-serif text-[40px] leading-tight font-medium text-brand-900">
+            You may also <em>like</em>
+          </h2>
+          <div class="mt-10 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+            {related.map((p) => (
+              <PackageCard client={client} pkg={p} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Layout>

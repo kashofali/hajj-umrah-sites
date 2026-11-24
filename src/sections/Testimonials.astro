@@ -1,0 +1,79 @@
+---
+import type { LoadedClient as Client } from '../lib/client';
+import SectionHeading from '../components/SectionHeading.astro';
+import Icon from '../components/Icon.astro';
+
+const { client } = Astro.props as { client: Client };
+const show = client.testimonials.length > 0 || client.rating;
+const title = client.reviews && client.reviews >= 20 ? `Trusted by *${client.reviews}+* pilgrims` : 'What our *pilgrims* say';
+---
+
+{
+  show && (
+    <section id="reviews" class="py-24 sm:py-28">
+      <div class="mx-auto max-w-[1200px] px-4 sm:px-6">
+        <SectionHeading eyebrow={client.rating ? 'Google reviews' : 'Reviews'} title={title} />
+
+        {client.rating && (
+          <a
+            href={client.mapsLink ?? '#contact'}
+            target={client.mapsLink ? '_blank' : undefined}
+            rel="noopener"
+            class="mx-auto mt-9 flex w-fit items-center gap-4 rounded-full border border-line bg-surface py-3 pr-7 pl-3 shadow-sm transition hover:border-gold"
+          >
+            <span class="flex h-11 w-11 items-center justify-center rounded-full bg-brand-50 font-serif text-xl font-semibold text-brand-900">
+              G
+            </span>
+            <span>
+              <span class="flex items-center gap-2">
+                <span class="font-serif text-2xl leading-none font-semibold text-brand-900">{client.rating.toFixed(1)}</span>
+                <span class="flex text-gold">
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <Icon name="star" class:list={['h-3.5 w-3.5', i >= Math.round(client.rating!) && 'opacity-30']} />
+                  ))}
+                </span>
+              </span>
+              <span class="mt-0.5 block text-[13px] text-muted">
+                Based on {client.reviews ?? 'our'} Google review{client.reviews === 1 ? '' : 's'}
+              </span>
+            </span>
+          </a>
+        )}
+
+        {client.testimonials.length > 0 && (
+          <div class="mt-12 grid gap-7 md:grid-cols-3">
+            {client.testimonials.map((t) => (
+              <figure class="card flex flex-col p-8">
+                <div class="flex items-start justify-between">
+                  <span class="flex text-gold">
+                    {Array.from({ length: 5 }, () => (
+                      <Icon name="star" class="h-3.5 w-3.5" />
+                    ))}
+                  </span>
+                  <span class="-mt-2 font-serif text-6xl leading-none text-gold-pale" aria-hidden="true">
+                    &rdquo;
+                  </span>
+                </div>
+                <blockquote class="mt-3 grow font-serif text-[21px] leading-relaxed text-brand-900">
+                  &ldquo;{t.text}&rdquo;
+                </blockquote>
+                <figcaption class="mt-7 flex items-center gap-3 border-t border-line pt-5">
+                  <span class="flex h-10 w-10 items-center justify-center rounded-full bg-gold-soft font-serif text-lg font-semibold text-gold">
+                    {t.name.charAt(0)}
+                  </span>
+                  <span>
+                    <span class="block font-bold text-brand-900">{t.name}</span>
+                    {(t.location || t.trip) && <span class="block text-[13px] text-muted">{[t.location, t.trip].filter(Boolean).join(" · ")}</span>}
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        )}
+        {client.sampleContent && client.testimonials.length > 0 && (
+          <p class="mt-8 text-center text-sm text-muted">Sample reviews for this demo.</p>
+        )}
+      </div>
+    </section>
+  )
+}

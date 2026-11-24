@@ -1,0 +1,30 @@
+---
+import type { LoadedClient as Client } from '../lib/client';
+import { contactHref, contactLabel, isExternal } from '../lib/client';
+import SectionHeading from '../components/SectionHeading.astro';
+import FaqList from '../components/FaqList.astro';
+import Icon from '../components/Icon.astro';
+
+const { client } = Astro.props as { client: Client };
+const ask = contactHref(client, 'Assalamu Alaikum, I have a question about Umrah.');
+---
+
+<section class="bg-surface py-24 sm:py-28">
+  <div class="mx-auto grid max-w-[1200px] gap-12 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+    <div>
+      <SectionHeading
+        align="left"
+        eyebrow="Questions"
+        title="Answers before you *ask*"
+        sub="Documents, payments, travelling with elders and more. Can't find your question? We're happy to help."
+      />
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/faq" class="btn btn-navy">All questions <Icon name="arrow" class="h-4 w-4" /></a>
+        <a href={ask} target={isExternal(ask) ? '_blank' : undefined} rel="noopener" class="btn btn-ghost">
+          {contactLabel(client, true)}
+        </a>
+      </div>
+    </div>
+    <FaqList faqs={client.faqs} limit={4} />
+  </div>
+</section>

@@ -1,0 +1,435 @@
+{
+  "slug": "al-fakhar-travels-and-tourism",
+  "name": "Al-fakhar Travels & Tourism",
+  "intro": "Families from Mumbai trust us with the journey of a lifetime: Umrah visa, flights, hotels a short walk from the Haram, fresh meals and guided Ziyarat, all taken care of.",
+  "city": "Mumbai",
+  "address": "Shop No 20 Ground Floor, Serena Shelter Mass Group Building, Bilali Masjid Rd, Kurla, Nehru Nagar, Kurla, Mumbai, Maharashtra 400024, India",
+  "phones": [
+    "8451913530"
+  ],
+  "whatsapp": "918451913530",
+  "mapsLink": "https://maps.google.com/?cid=14315015816720320356&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "rating": 4.8,
+  "reviews": 12,
+  "theme": "navy",
+  "demo": true,
+  "sampleContent": true,
+  "packages": [
+    {
+      "name": "Economy Umrah",
+      "type": "Economy Umrah",
+      "category": "umrah",
+      "featured": true,
+      "badge": "Best value",
+      "date": "Departures every month",
+      "description": "A comfortable, well-organised Umrah for families, with everything arranged from visa to Ziyarat.",
+      "days": 15,
+      "nights": 14,
+      "flight": "Return flight",
+      "hotelDistance": "700 m in Makkah",
+      "prices": {
+        "quad": 85000,
+        "triple": 91000,
+        "double": 99000
+      },
+      "hotels": [
+        {
+          "city": "Makkah",
+          "stars": 3,
+          "distance": "700 m from Masjid al-Haram (shuttle)",
+          "nights": 9
+        },
+        {
+          "city": "Madinah",
+          "stars": 3,
+          "distance": "400 m from Masjid an-Nabawi",
+          "nights": 5
+        }
+      ],
+      "meals": "Breakfast, lunch and dinner (Indian buffet)",
+      "inclusions": [
+        "Umrah visa with medical insurance",
+        "Return economy air tickets from India",
+        "Hotel stay in Makkah and Madinah as listed",
+        "All transfers by AC bus in Saudi Arabia",
+        "Makkah & Madinah Ziyarat with a guide",
+        "Pre-departure Umrah training session",
+        "Experienced group leader throughout",
+        "Umrah kit: ihram, belt, bag and dua book"
+      ],
+      "itinerary": [
+        {
+          "day": "Day 1",
+          "title": "India → Jeddah",
+          "text": "Assemble at the airport in ihram. Arrive in Jeddah and transfer to Makkah by AC bus."
+        },
+        {
+          "day": "Day 2",
+          "title": "Perform Umrah",
+          "text": "Perform Umrah together with the group leader: tawaf, sa'i and halq/taqsir."
+        },
+        {
+          "day": "Day 3 – 9",
+          "title": "Ibadah in Makkah",
+          "text": "Prayers in the Haram. Makkah Ziyarat: Jabal al-Nour, Jabal Thawr, Mina, Muzdalifah and Arafat."
+        },
+        {
+          "day": "Day 10",
+          "title": "Makkah → Madinah",
+          "text": "Farewell tawaf, then travel to Madinah by AC bus."
+        },
+        {
+          "day": "Day 11 – 14",
+          "title": "Ibadah in Madinah",
+          "text": "Salam at Rawdah (subject to Nusuk permit). Ziyarat of Masjid Quba, Uhud and Masjid Qiblatain."
+        },
+        {
+          "day": "Day 15",
+          "title": "Return home",
+          "text": "Transfer to Madinah airport and fly home."
+        }
+      ]
+    },
+    {
+      "name": "Deluxe Umrah",
+      "type": "Deluxe Umrah",
+      "category": "umrah",
+      "featured": true,
+      "badge": "Most popular",
+      "date": "Winter 2026 departures",
+      "description": "Hotels a short walk from both Harams, full-board Indian buffet and Ziyarat with an experienced guide.",
+      "days": 15,
+      "nights": 14,
+      "flight": "Direct flight",
+      "hotelDistance": "250 m in Madinah",
+      "prices": {
+        "quad": 110000,
+        "triple": 118000,
+        "double": 130000
+      },
+      "hotels": [
+        {
+          "city": "Makkah",
+          "stars": 4,
+          "distance": "350 m from Masjid al-Haram",
+          "nights": 9
+        },
+        {
+          "city": "Madinah",
+          "stars": 4,
+          "distance": "250 m from Masjid an-Nabawi",
+          "nights": 5
+        }
+      ],
+      "meals": "Breakfast, lunch and dinner (Indian buffet)",
+      "inclusions": [
+        "Umrah visa with medical insurance",
+        "Return economy air tickets from India",
+        "Hotel stay in Makkah and Madinah as listed",
+        "All transfers by AC bus in Saudi Arabia",
+        "Makkah & Madinah Ziyarat with a guide",
+        "Pre-departure Umrah training session",
+        "Experienced group leader throughout",
+        "Umrah kit: ihram, belt, bag and dua book",
+        "Zamzam water on return"
+      ],
+      "itinerary": [
+        {
+          "day": "Day 1",
+          "title": "India → Jeddah",
+          "text": "Direct flight in ihram. Arrive in Jeddah and transfer to your hotel in Makkah."
+        },
+        {
+          "day": "Day 2",
+          "title": "Perform Umrah",
+          "text": "Guided Umrah with the group leader, followed by rest."
+        },
+        {
+          "day": "Day 3 – 9",
+          "title": "Ibadah in Makkah",
+          "text": "Prayers in the Haram, Makkah Ziyarat and an optional second Umrah from Masjid Aisha."
+        },
+        {
+          "day": "Day 10",
+          "title": "Makkah → Madinah",
+          "text": "Farewell tawaf. Travel to Madinah by AC bus or Haramain train (on request)."
+        },
+        {
+          "day": "Day 11 – 14",
+          "title": "Ibadah in Madinah",
+          "text": "Prayers in Masjid an-Nabawi, Rawdah visit and Madinah Ziyarat."
+        },
+        {
+          "day": "Day 15",
+          "title": "Return home",
+          "text": "Fly home with Zamzam."
+        }
+      ]
+    },
+    {
+      "name": "Ramadan Umrah",
+      "type": "Ramadan Umrah",
+      "category": "ramadan",
+      "featured": true,
+      "badge": "Ramadan special",
+      "badgeTone": "accent",
+      "date": "Ramadan 2027 · last ashra",
+      "description": "Spend the blessed last ten nights in the Haram, with suhoor and iftar arranged for your group, and Eid in Madinah.",
+      "days": 20,
+      "nights": 19,
+      "flight": "Direct flight",
+      "hotelDistance": "300 m in Makkah",
+      "prices": {
+        "quad": 160000,
+        "triple": 172000,
+        "double": 190000
+      },
+      "hotels": [
+        {
+          "city": "Makkah",
+          "stars": 4,
+          "distance": "300 m from Masjid al-Haram",
+          "nights": 12
+        },
+        {
+          "city": "Madinah",
+          "stars": 4,
+          "distance": "200 m from Masjid an-Nabawi",
+          "nights": 7
+        }
+      ],
+      "meals": "Suhoor and iftar buffet daily, Eid lunch",
+      "inclusions": [
+        "Umrah visa with medical insurance",
+        "Return economy air tickets from India",
+        "Hotel stay in Makkah and Madinah as listed",
+        "All transfers by AC bus in Saudi Arabia",
+        "Makkah & Madinah Ziyarat with a guide",
+        "Pre-departure Umrah training session",
+        "Experienced group leader throughout",
+        "Umrah kit: ihram, belt, bag and dua book",
+        "Suhoor and iftar every day"
+      ],
+      "itinerary": [
+        {
+          "day": "Day 1",
+          "title": "India → Jeddah",
+          "text": "Fly in ihram and transfer to Makkah."
+        },
+        {
+          "day": "Day 2",
+          "title": "Perform Umrah",
+          "text": "Guided Umrah in the blessed month."
+        },
+        {
+          "day": "Day 3 – 12",
+          "title": "Last ten nights in Makkah",
+          "text": "Taraweeh and Qiyam ul-Layl in the Haram, seeking Laylat al-Qadr."
+        },
+        {
+          "day": "Day 13",
+          "title": "Makkah → Madinah",
+          "text": "Travel to Madinah after the khatam ul-Quran."
+        },
+        {
+          "day": "Day 14 – 19",
+          "title": "Eid in Madinah",
+          "text": "Eid prayer in Masjid an-Nabawi, Rawdah visit and Madinah Ziyarat."
+        },
+        {
+          "day": "Day 20",
+          "title": "Return home",
+          "text": "Fly home with Zamzam."
+        }
+      ]
+    },
+    {
+      "name": "Family Winter Umrah",
+      "type": "Family Umrah",
+      "category": "umrah",
+      "badge": "School holidays",
+      "date": "December 2026",
+      "description": "Timed with the winter school break, with family rooms, child-friendly meals and a slower pace for elders.",
+      "days": 12,
+      "nights": 11,
+      "flight": "Direct flight",
+      "hotelDistance": "450 m in Makkah",
+      "prices": {
+        "quad": 99000,
+        "triple": 106000,
+        "double": 117000
+      },
+      "hotels": [
+        {
+          "city": "Makkah",
+          "stars": 4,
+          "distance": "450 m from Masjid al-Haram",
+          "nights": 7
+        },
+        {
+          "city": "Madinah",
+          "stars": 4,
+          "distance": "250 m from Masjid an-Nabawi",
+          "nights": 4
+        }
+      ],
+      "meals": "Breakfast, lunch and dinner (Indian buffet)",
+      "inclusions": [
+        "Umrah visa with medical insurance",
+        "Return economy air tickets from India",
+        "Hotel stay in Makkah and Madinah as listed",
+        "All transfers by AC bus in Saudi Arabia",
+        "Makkah & Madinah Ziyarat with a guide",
+        "Pre-departure Umrah training session",
+        "Experienced group leader throughout",
+        "Umrah kit: ihram, belt, bag and dua book",
+        "Wheelchair assistance for elders (on request)",
+        "Child fare discount (2 – 11 yrs)"
+      ],
+      "itinerary": [
+        {
+          "day": "Day 1",
+          "title": "India → Jeddah",
+          "text": "Fly in ihram and transfer to Makkah."
+        },
+        {
+          "day": "Day 2",
+          "title": "Perform Umrah",
+          "text": "Guided Umrah at a gentle pace, with wheelchair help for elders."
+        },
+        {
+          "day": "Day 3 – 7",
+          "title": "Ibadah in Makkah",
+          "text": "Prayers in the Haram and Makkah Ziyarat."
+        },
+        {
+          "day": "Day 8",
+          "title": "Makkah → Madinah",
+          "text": "Travel to Madinah by AC bus."
+        },
+        {
+          "day": "Day 9 – 11",
+          "title": "Ibadah in Madinah",
+          "text": "Prayers in Masjid an-Nabawi and Madinah Ziyarat."
+        },
+        {
+          "day": "Day 12",
+          "title": "Return home",
+          "text": "Fly home from Madinah."
+        }
+      ]
+    },
+    {
+      "name": "Hajj 2027",
+      "type": "Hajj",
+      "category": "hajj",
+      "badge": "Limited seats",
+      "date": "May 2027 · Dhul Hijjah 1448",
+      "description": "A complete, scholar-guided Hajj with Aziziyah and Haram-side stays, upgraded Mina tents and full-board meals.",
+      "days": 35,
+      "nights": 34,
+      "flight": "Direct flight",
+      "hotelDistance": "400 m in Makkah",
+      "prices": {
+        "quad": 740000,
+        "triple": 790000,
+        "double": 865000
+      },
+      "hotels": [
+        {
+          "city": "Aziziyah",
+          "stars": 4,
+          "distance": "Building with shuttle to the Haram",
+          "nights": 15
+        },
+        {
+          "city": "Makkah",
+          "stars": 4,
+          "distance": "400 m from Masjid al-Haram",
+          "nights": 6
+        },
+        {
+          "city": "Mina",
+          "stars": 0,
+          "distance": "Upgraded AC tents with sofa-beds",
+          "nights": 5
+        },
+        {
+          "city": "Madinah",
+          "stars": 4,
+          "distance": "200 m from Masjid an-Nabawi",
+          "nights": 8
+        }
+      ],
+      "meals": "Full board (Indian buffet), plus meals in Mina and Arafat",
+      "inclusions": [
+        "Hajj visa and Nusuk registration",
+        "Return economy air tickets from India",
+        "Hotel stays and Mina tents as listed",
+        "All transfers in Saudi Arabia, including the Mashair",
+        "Qurbani (sacrifice) arranged",
+        "Daily lectures by an accompanying Aalim",
+        "Hajj training workshops before departure",
+        "Hajj kit: ihram, bags, umbrella and dua book"
+      ],
+      "itinerary": [
+        {
+          "day": "Day 1",
+          "title": "India → Jeddah / Madinah",
+          "text": "Group departure. Arrival city depends on the flight allotment."
+        },
+        {
+          "day": "Day 2 – 15",
+          "title": "Makkah & Aziziyah",
+          "text": "Umrah, ibadah in the Haram and preparation sessions for Hajj."
+        },
+        {
+          "day": "8 Dhul Hijjah",
+          "title": "Mina",
+          "text": "Move to Mina in ihram for Yawm at-Tarwiyah."
+        },
+        {
+          "day": "9 Dhul Hijjah",
+          "title": "Arafat & Muzdalifah",
+          "text": "Wuquf at Arafat, then the night under the open sky at Muzdalifah."
+        },
+        {
+          "day": "10 – 13 Dhul Hijjah",
+          "title": "Rami, Qurbani, Tawaf",
+          "text": "Stoning of the Jamarat, sacrifice, halq and Tawaf al-Ifadah."
+        },
+        {
+          "day": "Day 26 – 34",
+          "title": "Madinah",
+          "text": "Prayers in Masjid an-Nabawi, Rawdah visit and Ziyarat."
+        },
+        {
+          "day": "Day 35",
+          "title": "Return home",
+          "text": "Fly home with Zamzam."
+        }
+      ]
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Mohammed Arif",
+      "location": "Mumbai",
+      "trip": "Deluxe Umrah",
+      "text": "Alhamdulillah, everything was arranged perfectly, from visa to hotel. Our family could focus completely on our ibadah."
+    },
+    {
+      "name": "Shabana Shaikh",
+      "location": "Mumbai",
+      "trip": "Family Umrah",
+      "text": "The hotel was very close to the Haram and the group leader helped my elderly parents at every step."
+    },
+    {
+      "name": "Imran Khan",
+      "location": "Mumbai",
+      "trip": "Ramadan Umrah",
+      "text": "Transparent pricing with no hidden charges. JazakAllah khair to the whole team, we will travel with them again."
+    }
+  ],
+  "gallery": []
+}

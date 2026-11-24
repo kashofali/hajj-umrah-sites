@@ -1,0 +1,52 @@
+---
+// Illustration of a mihrab arch framing the Kaaba. Used when a client has no photos.
+interface Props {
+  class?: string;
+  /** Portrait composition for the hero / hospitality panels */
+  tall?: boolean;
+}
+const { class: cls = '', tall = false } = Astro.props;
+
+const W = 400;
+const H = tall ? 500 : 220;
+const aw = tall ? 230 : 120; // outer arch width
+const r = aw / 2;
+const yTop = tall ? 210 : 115; // where the arch curve starts
+const x1 = W / 2 - r;
+const x2 = W / 2 + r;
+const inset = tall ? 22 : 14;
+const k = tall ? 92 : 40; // kaaba width
+const kh = k * 0.82;
+const starY = yTop + (tall ? 20 : 10);
+const sr = tall ? 16 : 9;
+const id = `glow-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<svg
+  class={cls}
+  viewBox={`0 0 ${W} ${H}`}
+  preserveAspectRatio="xMidYMax slice"
+  aria-hidden="true"
+>
+  <defs>
+    <radialGradient id={id} cx="50%" cy="78%" r="55%">
+      <stop offset="0" stop-color="var(--gold-light)" stop-opacity="0.28"></stop>
+      <stop offset="1" stop-color="var(--gold-light)" stop-opacity="0"></stop>
+    </radialGradient>
+  </defs>
+  <rect width={W} height={H} fill={`url(#${id})`}></rect>
+  <g fill="none" stroke="var(--gold-light)" stroke-width="1.2" opacity="0.75">
+    <path d={`M${x1} ${H} V${yTop} A${r} ${r} 0 0 1 ${x2} ${yTop} V${H}`}></path>
+    <path
+      d={`M${x1 + inset} ${H} V${yTop + inset * 0.4} A${r - inset} ${r - inset} 0 0 1 ${x2 - inset} ${yTop + inset * 0.4} V${H}`}
+      opacity="0.6"></path>
+  </g>
+  <g fill="none" stroke="var(--gold-light)" stroke-width="1.2" opacity="0.9">
+    <rect x={W / 2 - sr} y={starY - sr} width={sr * 2} height={sr * 2}></rect>
+    <rect x={W / 2 - sr} y={starY - sr} width={sr * 2} height={sr * 2} transform={`rotate(45 ${W / 2} ${starY})`}></rect>
+    <circle cx={W / 2} cy={starY} r={sr * 0.45}></circle>
+  </g>
+  <rect x={W / 2 - k / 2} y={H - kh} width={k} height={kh} fill="#0a0a0a"></rect>
+  <rect x={W / 2 - k / 2} y={H - kh + kh * 0.2} width={k} height={kh * 0.11} fill="var(--gold-light)"></rect>
+  <rect x={W / 2 - k / 2} y={H - kh} width={k} height={kh} fill="none" stroke="var(--gold)" stroke-opacity="0.35"></rect>
+</svg>

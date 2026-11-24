@@ -1,0 +1,65 @@
+---
+import type { LoadedClient as Client } from '../lib/client';
+import SectionHeading from '../components/SectionHeading.astro';
+import Pattern from '../components/Pattern.astro';
+import ArchArt from '../components/ArchArt.astro';
+import Icon from '../components/Icon.astro';
+
+const { client } = Astro.props as { client: Client };
+const [main, second] = client.hospitalityImages ?? [];
+const days = client.packages.find((p) => p.days)?.days ?? 15;
+---
+
+<section class="bg-surface py-24 sm:py-28">
+  <div class="mx-auto grid max-w-[1200px] items-center gap-16 px-4 sm:px-6 lg:grid-cols-2 lg:gap-20">
+    <div class="relative pb-8 lg:pb-0">
+      {
+        main ? (
+          <img src={main} alt="" class="aspect-[4/3.6] w-full rounded-[24px] object-cover shadow-big" />
+        ) : (
+          <div class="relative aspect-[4/3.6] overflow-hidden rounded-[24px] bg-brand-900 shadow-big">
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_90%,var(--brand-700),transparent_70%)]" />
+            <Pattern class="text-gold-light opacity-[0.12]" size={80} />
+            <ArchArt tall class="absolute inset-0 h-full w-full" />
+            <p class="absolute inset-x-0 top-8 text-center font-serif text-xl text-gold-pale italic">
+              Madinah al-Munawwarah
+            </p>
+          </div>
+        )
+      }
+      {
+        second && (
+          <img
+            src={second}
+            alt=""
+            class="absolute right-0 -bottom-2 w-[44%] rounded-[20px] border-[6px] border-surface object-cover shadow-big lg:-right-6 lg:-bottom-10"
+          />
+        )
+      }
+      <div class="absolute top-8 -left-3 rounded-2xl bg-brand-900 px-7 py-5 text-center text-white shadow-big sm:-left-6">
+        <p class="font-serif text-5xl leading-none text-gold-light">{days}</p>
+        <p class="mt-2 text-[11px] font-bold tracking-[0.18em] text-white/70 uppercase">Days of ibadah</p>
+      </div>
+    </div>
+
+    <div>
+      <SectionHeading
+        align="left"
+        eyebrow="Our hospitality"
+        title="We handle the details, *you focus on ibadah*"
+        sub={`From the moment you leave ${client.city} until you return home, our team looks after every part of your journey.`}
+      />
+      <ul class="mt-9 grid gap-x-8 gap-y-5 sm:grid-cols-2">
+        {
+          client.highlights!.map((h) => (
+            <li class="flex gap-3.5">
+              <Icon name={h.icon ?? 'check'} class="mt-0.5 h-5 w-5 shrink-0 text-gold" />
+              <span class="font-medium text-ink/90">{h.title}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <a href="/packages" class="btn btn-navy mt-10">Explore packages <Icon name="arrow" class="h-4 w-4" /></a>
+    </div>
+  </div>
+</section>

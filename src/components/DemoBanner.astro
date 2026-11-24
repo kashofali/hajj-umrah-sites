@@ -1,0 +1,13 @@
+---
+import type { LoadedClient as Client } from '../lib/client';
+const { client } = Astro.props as { client: Client };
+---
+
+{
+  client.demo && (
+    <div class="bg-gold-soft px-4 py-2 text-center text-[13px] font-medium text-brand-900">
+      Demo website prepared for <strong>{client.name}</strong>
+      {client.sampleContent && <span class="hidden sm:inline"> · packages, prices and reviews are samples</span>}
+    </div>
+  )
+}

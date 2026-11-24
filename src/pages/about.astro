@@ -1,0 +1,125 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Pattern from '../components/Pattern.astro';
+import Icon from '../components/Icon.astro';
+import Testimonials from '../sections/Testimonials.astro';
+import CtaBand from '../sections/CtaBand.astro';
+import { loadClient } from '../lib/client';
+import { DEFAULT_VALUES } from '../lib/defaults';
+import { IMAGES } from '../lib/images';
+
+const client = loadClient();
+const about = client.about ?? {};
+const year = new Date().getFullYear();
+
+const title = client.since ? `Serving the guests of Allah *since ${client.since}*` : 'Serving the guests of *Allah*';
+const story = about.story?.length
+  ? about.story
+  : [
+      `${client.name} helps families from ${client.city} perform Umrah and Hajj with ease, dignity and peace of mind.`,
+      'Our promise is simple: tell pilgrims the truth about hotels and prices, look after them like our own parents, and stay with them from departure until they return home.',
+      'From the first enquiry to the last Ziyarat, one team handles your visa, flights, hotels, meals and transport, so you can give your whole heart to your ibadah.',
+    ];
+const values = about.values?.length ? about.values : DEFAULT_VALUES;
+
+// Only real numbers from the config; nothing is invented.
+const stats = [
+  client.since && { value: `${year - client.since}+`, label: 'Years of service' },
+  about.pilgrims && { value: about.pilgrims, label: 'Pilgrims served' },
+  client.rating && { value: `${client.rating.toFixed(1)}★`, label: client.reviews ? `From ${client.reviews} reviews` : 'Google rating' },
+].filter(Boolean) as { value: string; label: string }[];
+---
+
+<Layout
+  client={client}
+  title="About Us"
+  description={`${client.name} helps pilgrims from ${client.city} perform Umrah and Hajj. Learn about our story, our values and the team behind your journey.`}
+>
+  <PageHero image={IMAGES.banners.madinah}
+    eyebrow="About us"
+    title={title}
+    text={`A trusted Hajj & Umrah agency in ${client.city}, helping pilgrims perform Umrah and Hajj with ease, dignity and peace of mind.`}
+    crumbs={[{ label: 'About' }]}
+  />
+
+  <section class="py-24 sm:py-28">
+    <div class="mx-auto grid max-w-[1200px] gap-14 px-4 sm:px-6 lg:grid-cols-2 lg:items-center">
+      <div>
+        <SectionHeading align="left" eyebrow="Our story" title="One promise, *every journey*" />
+        <div class="mt-7 space-y-4 text-[17px] leading-relaxed text-muted">
+          {story.map((p) => <p>{p}</p>)}
+          {client.certification && <p>We are {client.certification} certified.</p>}
+        </div>
+      </div>
+
+      <div class="relative overflow-hidden rounded-[28px] bg-brand-950 p-8 text-white shadow-big sm:p-12">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgb(217_187_110/0.16),transparent_60%)]"></div>
+        <Pattern class="text-gold-light opacity-[0.07]" />
+        <p class="relative font-['Amiri',serif] text-3xl leading-loose text-gold-light sm:text-4xl" lang="ar" dir="rtl">
+          وَأَذِّن فِي النَّاسِ بِالْحَجِّ يَأْتُوكَ رِجَالًا
+        </p>
+        <p class="relative mt-4 font-serif text-xl text-white/75 italic">
+          "And proclaim to the people the Hajj; they will come to you on foot…"
+        </p>
+        <p class="relative mt-2 text-sm tracking-[0.14em] text-white/50 uppercase">Surah Al-Hajj 22:27</p>
+        {
+          stats.length > 0 && (
+            <>
+              <div class="relative my-8 h-px bg-gradient-to-r from-gold/0 via-gold/50 to-gold/0" />
+              <div class="relative grid grid-cols-2 gap-6 sm:grid-cols-3">
+                {stats.map((s) => (
+                  <div>
+                    <p class="font-serif text-4xl text-gold-light">{s.value}</p>
+                    <p class="mt-1 text-xs tracking-[0.14em] text-white/55 uppercase">{s.label}</p>
+                  </div>
+                ))}
+              </div>
+            </>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-surface py-24 sm:py-28">
+    <div class="mx-auto max-w-[1200px] px-4 sm:px-6">
+      <SectionHeading eyebrow="What we stand for" title="Three words that guide *everything we do*" />
+      <div class="mt-14 grid gap-6 md:grid-cols-3">
+        {
+          values.map((v) => (
+            <div class="card p-8">
+              <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-900 text-gold-light shadow-soft">
+                <Icon name={v.icon ?? 'check'} class="h-6 w-6" />
+              </span>
+              <h3 class="mt-7 font-serif text-3xl font-semibold text-brand-900">{v.title}</h3>
+              {v.text && <p class="mt-3 leading-relaxed text-muted">{v.text}</p>}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    about.milestones && about.milestones.length > 0 && (
+      <section class="py-24 sm:py-28">
+        <div class="mx-auto max-w-[1200px] px-4 sm:px-6">
+          <SectionHeading eyebrow="Our journey" title="Year after year, *group after group*" />
+          <ol class="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {about.milestones.map((m) => (
+              <li class="border-t-2 border-gold pt-6">
+                <span class="font-serif text-5xl font-semibold text-brand-900">{m.year}</span>
+                <p class="mt-3 leading-relaxed text-muted">{m.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )
+  }
+
+  <Testimonials client={client} />
+  <CtaBand client={client} />
+</Layout>

@@ -1,0 +1,45 @@
+---
+// Home page: featured packages + link to /packages.
+import type { LoadedClient as Client } from '../lib/client';
+import { featuredPackages } from '../lib/client';
+import SectionHeading from '../components/SectionHeading.astro';
+import PackageCard from '../components/PackageCard.astro';
+import Icon from '../components/Icon.astro';
+
+const { client } = Astro.props as { client: Client };
+const shown = featuredPackages(client);
+const days = shown.find((p) => p.days)?.days;
+const title = days ? `Umrah packages, *${days} days* of spiritual bliss` : 'Our Umrah *packages*';
+---
+
+{
+  shown.length > 0 && (
+    <section id="packages" class="pt-24 pb-24 sm:pt-28 sm:pb-28">
+      <div class="mx-auto max-w-[1200px] px-4 sm:px-6">
+        <SectionHeading
+          align="left"
+          eyebrow="Upcoming departures"
+          title={title}
+          sub="Every package includes the Umrah visa, flights, hotels near the Haram, meals, transport and guided Ziyarat."
+        >
+          {client.packages.length > shown.length && (
+            <a href="/packages" class="link-gold">
+              All {client.packages.length} packages <Icon name="arrow" class="h-4 w-4" />
+            </a>
+          )}
+        </SectionHeading>
+
+        <div class="mt-14 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+          {shown.map((p) => (
+            <PackageCard client={client} pkg={p} />
+          ))}
+        </div>
+        {client.sampleContent && (
+          <p class="mt-8 text-center text-sm text-muted">
+            Packages and prices shown are samples for this demo and will be replaced with your actual departures.
+          </p>
+        )}
+      </div>
+    </section>
+  )
+}

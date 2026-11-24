@@ -1,0 +1,44 @@
+---
+import type { LoadedClient as Client } from '../lib/client';
+import { formatPhone } from '../lib/client';
+import Icon from '../components/Icon.astro';
+
+const { client } = Astro.props as { client: Client };
+---
+
+<div class="hidden bg-brand-975 text-[13px] text-white/80 md:block">
+  <div class="mx-auto flex max-w-[1200px] items-center justify-between gap-6 px-6 py-2.5">
+    <p class="font-serif text-[15px] text-gold-light italic">{client.slogan ?? 'Hajj · Umrah · Ziyarat'}</p>
+    <div class="flex items-center gap-7">
+      {
+        client.phones[0] && (
+          <a href={`tel:+91${client.phones[0]}`} class="flex items-center gap-2 transition hover:text-white">
+            <Icon name="phone" class="h-3.5 w-3.5 text-gold-light" />
+            {formatPhone(client.phones[0])}
+          </a>
+        )
+      }
+      {
+        client.email && (
+          <a href={`mailto:${client.email}`} class="flex items-center gap-2 transition hover:text-white">
+            <Icon name="mail" class="h-3.5 w-3.5 text-gold-light" />
+            {client.email}
+          </a>
+        )
+      }
+      {
+        client.hours ? (
+          <span class="flex items-center gap-2">
+            <Icon name="clock" class="h-3.5 w-3.5 text-gold-light" />
+            {client.hours}
+          </span>
+        ) : (
+          <span class="flex items-center gap-2">
+            <Icon name="pin" class="h-3.5 w-3.5 text-gold-light" />
+            {client.city}
+          </span>
+        )
+      }
+    </div>
+  </div>
+</div>

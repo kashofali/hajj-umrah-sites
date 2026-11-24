@@ -1,0 +1,58 @@
+---
+import type { LoadedClient as Client } from '../lib/client';
+import { contactHref, contactLabel, formatPhone, isExternal } from '../lib/client';
+import Pattern from '../components/Pattern.astro';
+import Icon from '../components/Icon.astro';
+import { IMAGES } from '../lib/images';
+
+const { client } = Astro.props as { client: Client };
+const href = contactHref(client, `Assalamu Alaikum, I'd like to book my Umrah.`);
+---
+
+<section class="px-4 pb-24 sm:px-6 sm:pb-28">
+  <div
+    class="relative mx-auto max-w-[1200px] overflow-hidden rounded-[28px] bg-brand-950 px-6 py-16 text-center text-white shadow-big sm:py-20"
+  >
+    <img src={IMAGES.banners.madinah} alt="" loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-brand-975/80"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgb(217_187_110/0.18),transparent_55%)]"></div>
+    <Pattern class="text-gold-light opacity-[0.07]" />
+    <div class="pointer-events-none absolute inset-3 rounded-[22px] border border-gold/20"></div>
+
+    <div class="relative">
+      <div class="flex items-center justify-center gap-4 text-gold" aria-hidden="true">
+        <span class="h-px w-24 bg-gradient-to-r from-transparent to-gold/70"></span>
+        <svg viewBox="0 0 20 20" class="h-4 w-4"
+          ><g fill="none" stroke="currentColor" stroke-width="1.4"
+            ><rect x="5" y="5" width="10" height="10"></rect><rect
+              x="5"
+              y="5"
+              width="10"
+              height="10"
+              transform="rotate(45 10 10)"></rect></g
+          ></svg
+        >
+        <span class="h-px w-24 bg-gradient-to-l from-transparent to-gold/70"></span>
+      </div>
+      <h2 class="accent-light mx-auto mt-7 max-w-3xl font-serif text-[40px] leading-[1.1] font-medium sm:text-[54px]">
+        Begin your journey to the <em>Haram</em> with us
+      </h2>
+      <p class="mx-auto mt-5 max-w-xl text-[17px] leading-relaxed text-white/70">
+        Seats are limited on every departure. Message us today and we'll help you choose the right package for your family.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        <a href={href} target={isExternal(href) ? '_blank' : undefined} rel="noopener" class="btn btn-gold">
+          {client.whatsapp && <Icon name="chat" class="h-4 w-4" />}
+          {contactLabel(client)}
+        </a>
+        {
+          client.phones[0] && client.whatsapp && (
+            <a href={`tel:+91${client.phones[0]}`} class="btn btn-ghost-light">
+              <Icon name="phone" class="h-4 w-4" /> Call {formatPhone(client.phones[0])}
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>

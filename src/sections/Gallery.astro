@@ -1,0 +1,41 @@
+---
+import type { LoadedClient as Client } from '../lib/client';
+import { photo } from '../lib/client';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const { client } = Astro.props as { client: Client };
+const photos = client.gallery.slice(0, 5).map(photo);
+---
+
+{
+  photos.length > 0 && (
+    <section id="gallery" class="bg-surface py-24 sm:py-28">
+      <div class="mx-auto max-w-[1200px] px-4 sm:px-6">
+        <SectionHeading align="left" eyebrow="From our journeys" title="Real groups, real *memories*" />
+        <div class="mt-12 grid auto-rows-[220px] grid-cols-2 gap-4 lg:auto-rows-[250px] lg:grid-cols-4">
+          {photos.map((p, i) => (
+            <figure
+              class:list={[
+                'group relative overflow-hidden rounded-[20px] bg-brand-100',
+                i === 0 && 'col-span-2 row-span-2',
+                i === 3 && photos.length === 4 && 'lg:row-span-2',
+              ]}
+            >
+              <img
+                src={p.src}
+                alt={p.caption ?? `${client.name} pilgrim group`}
+                loading="lazy"
+                class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+              />
+              {p.caption && (
+                <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-5 pt-12 pb-4 text-sm font-semibold text-white">
+                  {p.caption}
+                </figcaption>
+              )}
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

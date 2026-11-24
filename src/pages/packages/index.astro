@@ -1,0 +1,80 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PackageCard from '../../components/PackageCard.astro';
+import CtaBand from '../../sections/CtaBand.astro';
+import { CATEGORIES, loadClient } from '../../lib/client';
+import { IMAGES } from '../../lib/images';
+
+const client = loadClient();
+const present = new Set(client.packages.map((p) => p.category));
+const filters = [
+  { key: 'all', label: 'All packages' },
+  ...Object.entries(CATEGORIES)
+    .filter(([key]) => present.has(key as keyof typeof CATEGORIES))
+    .map(([key, label]) => ({ key, label })),
+];
+const usesSharing = client.packages.some((p) => p.prices);
+---
+
+<Layout
+  client={client}
+  title="Hajj & Umrah Packages"
+  description={`Umrah, Ramadan Umrah and Hajj packages from ${client.city} with visa, flights, hotels near the Haram, meals and Ziyarat.`}
+>
+  <PageHero image={IMAGES.banners.haram}
+    eyebrow="Packages"
+    title="Find the journey that's *right for you*"
+    text={`Every package includes the visa, flights, hotels, meals, transport and Ziyarat. Prices are per person${usesSharing ? ' and shown for quad sharing' : ''}.`}
+    crumbs={[{ label: 'Packages' }]}
+  />
+
+  <section class="py-16 sm:py-24">
+    <div class="mx-auto max-w-[1200px] px-4 sm:px-6">
+      {
+        filters.length > 2 && (
+          <div class="flex flex-wrap gap-2" role="group" aria-label="Filter packages">
+            {filters.map((f, i) => (
+              <button
+                type="button"
+                data-filter={f.key}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+                class="filter-btn rounded-full border border-line bg-surface px-5 py-2.5 text-sm font-bold text-muted transition hover:text-brand-900 aria-pressed:border-brand-900 aria-pressed:bg-brand-900 aria-pressed:text-white"
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        )
+      }
+
+      <div id="package-grid" class="mt-10 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+        {client.packages.map((p) => <PackageCard client={client} pkg={p} />)}
+      </div>
+
+      <p class="mt-10 text-center text-sm text-muted">
+        {client.sampleContent ? 'Packages and prices shown are samples for this demo. ' : ''}Prices depend on flight fares
+        and hotel availability at the time of booking. Looking for something else?
+        <a href="/contact" class="font-bold text-brand-900 underline decoration-gold underline-offset-4"
+          >Ask for a custom package</a
+        >.
+      </p>
+    </div>
+  </section>
+
+  <CtaBand client={client} />
+</Layout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards = document.querySelectorAll<HTMLElement>('#package-grid [data-category]');
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.filter;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      cards.forEach((c) => {
+        c.hidden = key !== 'all' && c.dataset.category !== key;
+      });
+    }),
+  );
+</script>

@@ -1,0 +1,23 @@
+---
+import type { LoadedClient as Client } from '../lib/client';
+import { waHref } from '../lib/client';
+import Icon from './Icon.astro';
+
+const { client } = Astro.props as { client: Client };
+const href = waHref(client, `Assalamu Alaikum, I'd like to know more about your Umrah packages.`);
+---
+
+{
+  href && (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener"
+      class="fixed right-4 bottom-4 z-50 flex items-center gap-2 rounded-full bg-wa px-4 py-3.5 font-bold text-white shadow-big transition hover:-translate-y-0.5 sm:right-6 sm:bottom-6 sm:px-5"
+      aria-label="Chat on WhatsApp"
+    >
+      <Icon name="chat" class="h-6 w-6" />
+      <span class="hidden sm:inline">WhatsApp us</span>
+    </a>
+  )
+}

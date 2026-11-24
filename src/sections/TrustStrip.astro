@@ -1,0 +1,39 @@
+---
+import type { Item } from '../lib/types';
+import type { LoadedClient as Client } from '../lib/client';
+import Icon from '../components/Icon.astro';
+
+const { client } = Astro.props as { client: Client };
+const year = new Date().getFullYear();
+const closest = client.packages.find((p) => p.hotelDistance)?.hotelDistance;
+
+const items = [
+  client.since && { icon: 'calendar', title: `Since ${client.since}`, text: `${year - client.since} years of trusted service` },
+  client.certification && { icon: 'award', title: client.certification, text: 'Certified company' },
+  client.rating && { icon: 'star', title: `${client.rating.toFixed(1)} on Google`, text: client.reviews ? `From ${client.reviews} reviews` : 'Rated by pilgrims' },
+  { icon: 'passport', title: 'Visa assistance', text: 'Paperwork handled for you' },
+  { icon: 'plane', title: 'Direct flights', text: 'From India to Saudi Arabia' },
+  { icon: 'hotel', title: 'Walkable hotels', text: closest ? `As close as ${closest}` : 'Close to the Haram' },
+]
+  .filter(Boolean)
+  .slice(0, 4) as Item[];
+const cols = items.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3';
+---
+
+<div class="relative z-10 mx-auto -mt-24 max-w-[1200px] px-4 sm:px-6">
+  <div class:list={['card grid divide-y divide-line-soft overflow-hidden shadow-big lg:divide-x lg:divide-y-0', cols]}>
+    {
+      items.map((it) => (
+        <div class="flex items-center gap-4 px-6 py-6">
+          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gold-soft text-gold">
+            <Icon name={it.icon!} class="h-5 w-5" />
+          </span>
+          <span>
+            <span class="block font-bold text-brand-900">{it.title}</span>
+            <span class="block text-sm text-muted">{it.text}</span>
+          </span>
+        </div>
+      ))
+    }
+  </div>
+</div>

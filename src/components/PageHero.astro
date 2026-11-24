@@ -1,0 +1,66 @@
+---
+// Navy banner at the top of inner pages, with breadcrumbs.
+import Pattern from './Pattern.astro';
+import Accent from './Accent.astro';
+import { IMAGES } from '../lib/images';
+
+interface Props {
+  eyebrow: string;
+  /** Wrap words in *asterisks* for the gold italic accent */
+  title: string;
+  text?: string;
+  crumbs?: { label: string; href?: string }[];
+  /** Background photo; pass `false` for the plain pattern */
+  image?: string | false;
+}
+const { eyebrow, title, text, crumbs = [], image = IMAGES.banners.makkah } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-brand-950 text-white">
+  {
+    image && (
+      <>
+        <img src={image} alt="" class="absolute inset-0 h-full w-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-975/95 via-brand-950/85 to-brand-950/45" />
+      </>
+    )
+  }
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_85%_0%,var(--brand-800),transparent_60%)] opacity-60"></div>
+  <Pattern class="text-gold-light opacity-[0.06]" />
+  <div class="relative mx-auto max-w-[1200px] px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
+    {
+      crumbs.length > 0 && (
+        <nav aria-label="Breadcrumb" class="mb-7 text-[13px] text-white/55">
+          <ol class="flex flex-wrap items-center gap-2">
+            <li>
+              <a href="/" class="hover:text-gold-light">
+                Home
+              </a>
+            </li>
+            {crumbs.map((c) => (
+              <li class="flex items-center gap-2">
+                <span aria-hidden="true">/</span>
+                {c.href ? (
+                  <a href={c.href} class="hover:text-gold-light">
+                    {c.label}
+                  </a>
+                ) : (
+                  <span class="text-white/85" aria-current="page">
+                    {c.label}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+    <p class="eyebrow">{eyebrow}</p>
+    <h1 class="accent-light mt-5 max-w-3xl font-serif text-5xl leading-[1.04] font-medium sm:text-6xl lg:text-[68px]">
+      <Accent text={title} />
+    </h1>
+    {text && <p class="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">{text}</p>}
+    <slot />
+  </div>
+  <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent"></div>
+</section>

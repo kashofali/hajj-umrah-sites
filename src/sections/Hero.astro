@@ -1,0 +1,113 @@
+---
+import type { LoadedClient as Client } from '../lib/client';
+import { contactHref, contactLabel, isExternal } from '../lib/client';
+import Pattern from '../components/Pattern.astro';
+import ArchArt from '../components/ArchArt.astro';
+import Accent from '../components/Accent.astro';
+import Icon from '../components/Icon.astro';
+import { IMAGES } from '../lib/images';
+
+const { client } = Astro.props as { client: Client };
+const title = client.heroTitle ?? 'Your Umrah, in *trusted hands*';
+const contact = contactHref(client, `Assalamu Alaikum, I'd like to know about your Umrah packages.`);
+const year = new Date().getFullYear();
+
+const stats = [
+  client.since && { value: `${year - client.since}+`, label: 'Years of service' },
+  client.rating && { value: client.rating.toFixed(1), label: 'Google rating' },
+  client.reviews && client.reviews >= 10 && { value: `${client.reviews}+`, label: 'Happy reviews' },
+].filter(Boolean) as { value: string; label: string }[];
+
+const badge = client.certification
+  ? { icon: 'award' as const, title: client.certification, text: 'Certified company' }
+  : client.since
+    ? { icon: 'calendar' as const, title: `Since ${client.since}`, text: 'Trusted by families' }
+    : { icon: 'shield' as const, title: 'Visa & travel', text: 'Handled end to end' };
+---
+
+<section id="top" class="relative overflow-hidden bg-brand-950 text-white">
+  <img src={IMAGES.banners.night} alt="" class="absolute inset-0 h-full w-full object-cover opacity-25" />
+  <div class="absolute inset-0 bg-gradient-to-r from-brand-975 via-brand-950/90 to-brand-950/70"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_10%,var(--brand-800),transparent_60%)] opacity-70"></div>
+  <Pattern class="text-gold-light opacity-[0.06]" />
+  <div
+    class="relative mx-auto grid max-w-[1200px] items-center gap-14 px-4 pt-16 pb-36 sm:px-6 sm:pt-24 lg:grid-cols-[1.15fr_0.85fr] lg:pb-40"
+  >
+    <div>
+      <p class="eyebrow">Hajj · Umrah · Ziyarat from {client.city}</p>
+      <h1
+        class="accent-light mt-6 font-serif text-[52px] leading-[1.02] font-medium sm:text-7xl lg:text-[84px]"
+      >
+        <Accent text={title} />
+      </h1>
+      <p class="mt-7 max-w-xl text-lg leading-relaxed text-white/70">{client.intro}</p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a href="/packages" class="btn btn-pale">View Umrah packages <Icon name="arrow" class="h-4 w-4" /></a>
+        <a href={contact} target={isExternal(contact) ? '_blank' : undefined} rel="noopener" class="btn btn-ghost-light">
+          {client.whatsapp && <Icon name="chat" class="h-4 w-4" />}
+          {contactLabel(client, true)}
+        </a>
+      </div>
+      {
+        stats.length > 0 && (
+          <dl class="mt-12 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-9">
+            {stats.map((s) => (
+              <div>
+                <dd class="font-serif text-[40px] leading-none">{s.value}</dd>
+                <dt class="mt-2 text-xs tracking-[0.16em] text-white/55 uppercase">{s.label}</dt>
+              </div>
+            ))}
+          </dl>
+        )
+      }
+    </div>
+
+    <div class="relative mx-auto w-full max-w-[420px]">
+      <div
+        class="relative aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-[28px] border-[7px] border-gold/35 bg-brand-900 shadow-big"
+      >
+        {
+          client.heroImage ? (
+            <img src={client.heroImage} alt="" class="absolute inset-0 h-full w-full object-cover" />
+          ) : (
+            <>
+              <Pattern class="text-gold-light opacity-[0.12]" size={72} />
+              <ArchArt tall class="absolute inset-0 h-full w-full" />
+            </>
+          )
+        }
+        <div class="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-brand-975/85 to-transparent"></div>
+        <p class="absolute inset-x-0 bottom-7 text-center font-serif text-xl text-gold-pale italic">
+          Makkah al-Mukarramah
+        </p>
+      </div>
+
+      {
+        client.rating && (
+          <div class="card absolute top-[22%] -right-3 flex items-center gap-3 px-4 py-3 text-ink shadow-big sm:-right-8">
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-gold-soft font-serif text-xl font-semibold text-gold">
+              G
+            </span>
+            <span>
+              <span class="block text-[15px] font-bold text-brand-900">{client.rating.toFixed(1)} / 5 on Google</span>
+              <span class="flex text-gold">
+                {Array.from({ length: 5 }, () => (
+                  <Icon name="star" class="h-3 w-3" />
+                ))}
+              </span>
+            </span>
+          </div>
+        )
+      }
+      <div class="card absolute -bottom-6 -left-3 flex items-center gap-3 px-4 py-3 text-ink shadow-big sm:-left-10">
+        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-gold-soft text-gold">
+          <Icon name={badge.icon} class="h-5 w-5" />
+        </span>
+        <span>
+          <span class="block text-[15px] font-bold text-brand-900">{badge.title}</span>
+          <span class="block text-[13px] text-muted">{badge.text}</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>

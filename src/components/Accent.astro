@@ -1,0 +1,11 @@
+---
+// Renders text with *word* turned into <em>word</em> (styled gold italic by .accent / .accent-light).
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const html = esc(text).replace(/\*(.+?)\*/g, '<em>$1</em>');
+---
+
+<Fragment set:html={html} />

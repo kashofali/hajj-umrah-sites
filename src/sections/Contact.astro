@@ -1,0 +1,188 @@
+---
+// Body of the /contact page: WhatsApp enquiry form + contact details + map.
+import type { LoadedClient as Client } from '../lib/client';
+import { formatPhone, mapEmbedUrl, waHref } from '../lib/client';
+import type { IconName } from '../lib/types';
+import Icon from '../components/Icon.astro';
+
+const { client } = Astro.props as { client: Client };
+const mapSrc = mapEmbedUrl(client);
+const wa = waHref(client, `Assalamu Alaikum, I'd like to know about your Umrah packages.`);
+const handle = client.instagram?.match(/instagram\.com\/([^/?#]+)/)?.[1];
+
+const channels: { icon: IconName; label: string; value: string; href: string }[] = [
+  ...(wa ? [{ icon: 'chat' as const, label: 'WhatsApp', value: 'Chat with us', href: wa }] : []),
+  ...client.phones.map((p, i) => ({
+    icon: 'phone' as const,
+    label: i === 0 ? 'Call' : 'Call (alternate)',
+    value: formatPhone(p),
+    href: `tel:+91${p}`,
+  })),
+  ...(client.email ? [{ icon: 'mail' as const, label: 'Email', value: client.email, href: `mailto:${client.email}` }] : []),
+  ...(client.instagram
+    ? [{ icon: 'instagram' as const, label: 'Instagram', value: handle ? `@${handle}` : 'Instagram', href: client.instagram }]
+    : []),
+];
+---
+
+<section id="contact" class="py-16 sm:py-24">
+  <div class="mx-auto grid max-w-[1200px] gap-8 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr]">
+    {
+      client.whatsapp ? (
+        <div class="card p-7 sm:p-10">
+          <h2 class="font-serif text-4xl font-semibold text-brand-900">Send an enquiry</h2>
+          <p class="mt-2 text-muted">Your message opens in WhatsApp, ready to send. We never share your details.</p>
+
+          <form id="enquiry" data-wa={client.whatsapp} data-agency={client.name} class="mt-8 grid gap-5 sm:grid-cols-2" novalidate>
+            <label class="text-sm font-semibold text-brand-900">
+              Full name *
+              <input name="name" required autocomplete="name" class="field" placeholder="Mohammed Arif" />
+            </label>
+            <label class="text-sm font-semibold text-brand-900">
+              Mobile number *
+              <input name="phone" required type="tel" autocomplete="tel" inputmode="tel" class="field" placeholder="98XXXXXXXX" />
+            </label>
+            <label class="text-sm font-semibold text-brand-900 sm:col-span-2">
+              Package
+              <select name="package" class="field">
+                <option value="">Not sure yet, please suggest</option>
+                {client.packages.map((p) => (
+                  <option value={p.name}>
+                    {p.name}
+                    {p.days ? ` (${p.days} days)` : ''}
+                  </option>
+                ))}
+                <option value="Custom / private Umrah">Custom / private Umrah</option>
+              </select>
+            </label>
+            <label class="text-sm font-semibold text-brand-900">
+              Travellers
+              <input name="travellers" type="number" min="1" max="50" value="2" class="field" />
+            </label>
+            <label class="text-sm font-semibold text-brand-900">
+              Preferred month
+              <input name="month" type="month" class="field" />
+            </label>
+            <label class="text-sm font-semibold text-brand-900 sm:col-span-2">
+              Message
+              <textarea
+                name="message"
+                rows="4"
+                class="field resize-y"
+                placeholder="Any questions, special needs (wheelchair, elders), budget…"
+              />
+            </label>
+            <p id="form-error" class="hidden text-sm font-semibold text-accent sm:col-span-2" role="alert">
+              Please enter your name and a valid mobile number.
+            </p>
+            <button type="submit" class="btn w-full bg-wa text-white sm:col-span-2">
+              <Icon name="chat" class="h-5 w-5" /> Send on WhatsApp
+            </button>
+          </form>
+        </div>
+      ) : (
+        <div class="card flex flex-col items-center justify-center p-10 text-center">
+          <p class="font-serif text-3xl text-brand-900">We'd love to hear from you</p>
+          <p class="mt-3 text-muted">Send us a message and we'll help you plan your journey.</p>
+          {client.instagram && (
+            <a href={client.instagram} target="_blank" rel="noopener" class="btn btn-navy mt-7">
+              <Icon name="instagram" class="h-4 w-4" /> Message us on Instagram
+            </a>
+          )}
+        </div>
+      )
+    }
+
+    <div class="flex min-w-0 flex-col gap-6">
+      {
+        channels.length > 0 && (
+          <div class="grid gap-4 sm:grid-cols-2">
+            {channels.map((c) => (
+              <a
+                href={c.href}
+                target={c.href.startsWith('http') ? '_blank' : undefined}
+                rel="noopener"
+                class="card group flex items-center gap-4 p-5 transition hover:-translate-y-0.5 hover:shadow-soft"
+              >
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-900 text-gold-light transition group-hover:bg-gold group-hover:text-brand-950">
+                  <Icon name={c.icon} class="h-5 w-5" />
+                </span>
+                <span class="min-w-0">
+                  <span class="block text-[11px] font-bold tracking-[0.16em] text-muted uppercase">{c.label}</span>
+                  <span class="block truncate font-semibold text-brand-900">{c.value}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        )
+      }
+
+      <div class="card p-6 sm:p-7">
+        <h2 class="font-serif text-3xl font-semibold text-brand-900">Visit our office</h2>
+        <p class="mt-4 flex gap-3 text-muted">
+          <Icon name="pin" class="mt-0.5 h-5 w-5 shrink-0 text-gold" />
+          {
+            client.mapsLink ? (
+              <a href={client.mapsLink} target="_blank" rel="noopener" class="hover:text-brand-900">
+                {client.address ?? client.city}
+              </a>
+            ) : (
+              <span>{client.address ?? client.city}</span>
+            )
+          }
+        </p>
+        {
+          client.hours && (
+            <p class="mt-3 flex gap-3 text-muted">
+              <Icon name="clock" class="mt-0.5 h-5 w-5 shrink-0 text-gold" />
+              {client.hours}
+            </p>
+          )
+        }
+        {
+          mapSrc && (
+            <iframe
+              src={mapSrc}
+              title={`Map showing ${client.name}`}
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              class="mt-5 h-72 w-full rounded-2xl border border-line"
+            />
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#enquiry');
+  const error = document.querySelector<HTMLElement>('#form-error');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const d = new FormData(form);
+    const name = String(d.get('name') || '').trim();
+    const phone = String(d.get('phone') || '').replace(/[\s-]/g, '');
+    if (!name || !/^\+?\d{10,14}$/.test(phone)) {
+      error?.classList.remove('hidden');
+      return;
+    }
+    error?.classList.add('hidden');
+    const month = String(d.get('month') || '');
+    const monthText = month
+      ? new Date(`${month}-01`).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })
+      : 'Flexible';
+    const lines = [
+      `Assalamu Alaikum ${form.dataset.agency},`,
+      '',
+      `Name: ${name}`,
+      `Mobile: ${phone}`,
+      `Package: ${d.get('package') || 'Please suggest'}`,
+      `Travellers: ${d.get('travellers') || '-'}`,
+      `Preferred month: ${monthText}`,
+    ];
+    const msg = String(d.get('message') || '').trim();
+    if (msg) lines.push('', msg);
+    window.open(`https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+  });
+</script>
